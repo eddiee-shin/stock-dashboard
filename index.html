@@ -405,17 +405,17 @@
             </div>
             <div class="card">
                 <div class="card-header">
+                    <div class="card-title">AUD/KRW</div>
+                </div>
+                <div class="pair-name">호주 달러 → 한국 원</div>
+                <div class="price" id="audkrw">-</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
                     <div class="card-title">AUD/USD</div>
                 </div>
                 <div class="pair-name">호주 달러 → 미국 달러</div>
                 <div class="price" id="audusd">-</div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">USD/AUD</div>
-                </div>
-                <div class="pair-name">미국 달러 → 호주 달러</div>
-                <div class="price" id="usdaud">-</div>
             </div>
         </div>
     </div>
@@ -507,12 +507,13 @@
                 if (data.rates && data.rates.KRW && data.rates.AUD) {
                     const usdToKrw = data.rates.KRW;
                     const usdToAud = data.rates.AUD;
+                    const audToKrw = usdToKrw / usdToAud;
                     const audToUsd = 1 / usdToAud;
                     
                     return {
                         USDKRW: usdToKrw.toFixed(2),
-                        AUDUSD: audToUsd.toFixed(4),
-                        USDAUD: usdToAud.toFixed(4)
+                        AUDKRW: audToKrw.toFixed(2),
+                        AUDUSD: audToUsd.toFixed(4)
                     };
                 }
                 throw new Error('환율 데이터 없음');
@@ -579,8 +580,8 @@
             const currencyRates = await fetchCurrencyRates();
             if (currencyRates) {
                 document.getElementById('usdkrw').textContent = `₩${currencyRates.USDKRW}`;
+                document.getElementById('audkrw').textContent = `₩${currencyRates.AUDKRW}`;
                 document.getElementById('audusd').textContent = `$${currencyRates.AUDUSD}`;
-                document.getElementById('usdaud').textContent = `A$${currencyRates.USDAUD}`;
             }
             
             // 업데이트 시간 표시
